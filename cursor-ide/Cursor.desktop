@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Cursor
+Exec=/home/t/.local/share/AppImage/Cursor.AppImage
+Icon=/home/t/.local/share/icons/cursor.png
+Type=Application
+Categories=Development;
+StartupNotify=true
+Terminal=false
+Keywords=ide;dev;cursor;
