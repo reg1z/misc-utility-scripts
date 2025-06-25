@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$THIS_USER=$(whoami)
+THIS_USER=$(whoami)
 
 sudo groupadd docker
 sudo usermod -aG docker $THIS_USER
