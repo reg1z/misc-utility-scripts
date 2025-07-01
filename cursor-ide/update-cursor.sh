@@ -17,6 +17,7 @@ CURSOR_IMG=$USER_APPIMG/Cursor.AppImage
 # Create target directories if they don't already exist.
 mkdir -p $USER_BIN
 mkdir -p $USER_APPIMG
+mkdir -p $USER_APPS
 mkdir -p $USER_APPIMG/past-versions
 mkdir -p $USER_ICONS
 
@@ -32,24 +33,32 @@ EOM
 read name
 NEW_VER=$USER_HOME/Downloads/$name
 
-echo -e "\nBacking up existing Cursor executable and disabling its execution permissions...\n"
 timestamp=$(date +"%y-%m-%d-%H-%M-%S")
+BACKUP_LOC=$USER_APPIMG/past-versions/Cursor.AppImage.$timestamp
+echo -e "\n-------------------------------------"
+echo -e "Backing up existing Cursor executable to $BACKUP_LOC and disabling its execution permissions..."
 sudo chmod -x $CURSOR_IMG
-mv $CURSOR_IMG "$USER_APPIMG/past-versions/Cursor.AppImage.$timestamp"
+mv $CURSOR_IMG $BACKUP_LOC
 
-echo -e "\nRenaming and moving $USER_HOME/Downloads/$name to $CURSOR_IMG...\n"
-mv $NEW_VER $CURSOR_IMG
+echo -e "\n-------------------------------------"
+echo -e "Copying and renaming $USER_HOME/Downloads/$name to $CURSOR_IMG..."
+cp -f $NEW_VER $CURSOR_IMG
 
-echo -e "\nGranting executable permissions to $CURSOR_IMG"
+echo -e "\n-------------------------------------"
+echo -e "Granting executable permissions to $CURSOR_IMG"
 sudo chmod 700 $CURSOR_IMG
 
-echo -e "\nAdding Cursor.desktop entry in $USER_APPS.\nThis will make Cursor visible in your app launcher of choice...\n"
-cp ./Cursor.desktop $USER_APPS/Cursor.desktop
+echo -e "\n-------------------------------------"
+echo -e "Adding Cursor.desktop entry in $USER_APPS.\nThis will make Cursor visible in your app launcher of choice..."
+cp -f ./Cursor.desktop $USER_APPS/Cursor.desktop
 
-echo -e "\nAdding Cursor icon to $USER_ICONS...\n"
-cp ./cursor.png $USER_ICONS/cursor.png
+echo -e "\n-------------------------------------"
+echo -e "Adding Cursor icon to $USER_ICONS..."
+cp -f ./cursor.png $USER_ICONS/cursor.png
 
-echo -e "\nSymlinking $CURSOR_IMG to $USER_BIN\n(this folder must be defined in your PATH for the app to launch properly via terminal/launcher commands)...\n"
+echo -e "\n-------------------------------------"
+echo -e "Symlinking $CURSOR_IMG to $USER_BIN\n(this folder must be defined in your PATH for the app to launch properly via terminal/launcher commands)..."
 ln -s $CURSOR_IMG $USER_BIN/cursor
 
+echo -e "\n-------------------------------------"
 echo "Fin."
